@@ -1,0 +1,33 @@
+.reg {
+    margin-left: 5%;
+    margin-right: 2rem;
+    margin-top: 2rem;
+    height: 80vh;
+    width: 30%;
+}
+
+.reg-label, .reg-container {
+    margin-top: 0.5rem;
+}
+
+#reg-button {
+    margin-top: 2rem;
+    margin-bottom: 2rem; 
+    width: 100%;
+}
+
+.reg-link {
+    color: black;
+    text-decoration: none;
+}
+
+.reg-link:hover {
+    text-decoration: underline;
+}
+
+@media screen and (max-width: 600px) {
+    .reg {
+        margin-left: 0;
+        width: 100%;
+    }
+}

@@ -1,11 +1,90 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>digest — стартовая</title>
-</head>
-<body>
-    <h1>digest работает</h1>
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Главная{% endblock %}
+
+{% block css %}<link rel="stylesheet" href={% static 'css/index.css' %}>{% endblock %}
+
+    {% block content %}<section class="hero header">
+            <div class="container header-bg">
+                <h1 class="header-title">ИИ-дайджест новостных материалов с отправкой на электронную почту</h1>
+                <p class="text-header">
+                    Система автоматически получает новые материалы с новостных сайтов,
+                    анализирует их с использованием искусственного интеллекта, определяет значимость
+                    публикаций и формирует структурированный результат для последующего создания дайджеста.
+                </p>
+            </div>
+        </section>
+        
+        <div class="container">
+            <section id="mail" class="step-card" style="margin-bottom: 50px; text-align: center;">
+                <h3 style="margin-bottom: 15px;">
+                    Еженедельные ИИ-дайджесты
+                </h3>
+
+                <p style="margin-bottom: 0;">
+                    Сервис автоматически формирует подборку наиболее значимых материалов за неделю
+                    и отправляет готовый дайджест по электронной почте.
+                </p>
+            </section>
+
+            <h2 class="section-title">Как работает дайджест</h2>
+
+            <section class="steps">
+                <div class="step-card">
+                    <h3>Сбор материалов</h3>
+                    <p>Система получает новые публикации с избранных интернет-источников.</p>
+                </div>
+
+                <div class="step-card">
+                    <h3>Обработка содержимого</h3>
+                    <p>Текст очищается от лишних элементов и подготавливается для анализа.</p>
+                </div>
+
+                <div class="step-card">
+                    <h3>Анализ ИИ</h3>
+                    <p>Модель искусственного интеллекта оценивает значимость материала и формирует краткий список тем.</p>
+                </div>
+
+                <div class="step-card">
+                    <h3>Результат</h3>
+                    <p>Результат анализа возвращается в структурированном виде со ссылками на материал.</p>
+                </div>
+            </section>
+
+            <h2 class="section-title">Используемые источники</h2>
+
+            <section class="media-grid">
+                <div class="media-card" onclick="window.open('https://habr.com', '_blank')">
+                    <img src="https://www.google.com/s2/favicons?domain=habr.com&sz=64" alt="Habr">
+                    <span>habr.com</span>
+                </div>
+
+                <div class="media-card" onclick="window.open('https://gazeta.ru', '_blank')">
+                    <img src="https://www.google.com/s2/favicons?domain=gazeta.ru&sz=64" alt="Газета.Ru">
+                    <span>gazeta.ru</span>
+                </div>
+
+                <div class="media-card" onclick="window.open('https://bashinform.ru', '_blank')">
+                    <img src="https://www.google.com/s2/favicons?domain=bashinform.ru&sz=64" alt="Башинформ">
+                    <span>bashinform.ru</span>
+                </div>
+
+                <div class="media-card" onclick="window.open('https://kommersant.ru', '_blank')">
+                    <img src="https://www.google.com/s2/favicons?domain=kommersant.ru&sz=64" alt="Коммерсантъ">
+                    <span>kommersant.ru</span>
+                </div>
+
+                <div class="media-card" onclick="window.open('https://lenta.ru', '_blank')">
+                    <img src="https://www.google.com/s2/favicons?domain=lenta.ru&sz=64" alt="Лента.ру">
+                    <span>lenta.ru</span>
+                </div>
+
+                <div class="media-card" onclick="window.open('https://vedomosti.ru', '_blank')">
+                    <img src="https://www.google.com/s2/favicons?domain=vedomosti.ru&sz=64" alt="Ведомости">
+                    <span>vedomosti.ru</span>
+                </div>
+            </section>
+    </div>{% endblock %}
+
+{% block js %}{% endblock %}

@@ -1,0 +1,26 @@
+.auth {
+    margin-left: 5%;
+    margin-right: 2rem;
+    margin-top: 2rem;
+    height: 80vh;
+    width: 30%;
+}
+
+#password-label, #auth-button, .reg-container {
+    margin-top: 1rem;
+}
+
+.reg-link {
+    color: black;
+    text-decoration: none;
+}
+
+.reg-link:hover {
+    text-decoration: underline;
+}
+
+@media screen and (max-width: 600px) {
+    .auth {
+        margin-left: 2%;
+    }
+}

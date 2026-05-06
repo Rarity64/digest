@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Аккаунт{% endblock %}
+
+{% block css %}
+    <!-- Связывание с CSS файлом -->
+    <link rel="stylesheet" href={% static 'css/account.css' %}>
+{% endblock %}
+
+{% block content %}
+    {% csrf_token %}
+    <div class="container account">
+        <div class="row rows-cols-1">
+            <div class="col-1 acc-col">
+                <h1>Настройки профиля</h1>
+                <label for="first-name" class="form-label">Имя</label>
+                <input type="text" class="form-control" id="first-name" placeholder="Введите имя" value="{{ first_name }}">
+            </div>
+
+            <div class="col-1 acc-col">
+                <label for="last-name" class="form-label reg-label">Фамилия</label>
+                <input type="text" class="form-control" id="last-name" placeholder="Введите фамилию" value="{{ last_name }}">
+            </div>
+
+            <div class="col-1 acc-col">
+                <label for="birthdate" class="form-label reg-label">Дата рождения</label>
+                <input type="text" class="form-control" id="birthdate" placeholder="Введите дату рождения" value="{{ birthdate }}" disabled>
+                <small id="birthdate-info" class="form-text text-muted">Извините, дату рождения изменить нельзя.</small>
+            </div>
+
+            <div class="col-1 acc-col">
+                <label for="email" class="form-label reg-label">Изменить адрес электронной почты</label>
+                <input type="email" class="form-control" id="email" placeholder="Введите почту" value="{{ email }}">
+            </div>
+
+            <div class="col acc-col">
+                <label for="password" class="form-label reg-label">Изменить пароль</label>
+                <input type="password" class="form-control" id="password" placeholder="Введите пароль" value="{{ password }}">
+            </div>
+
+            <div class="col-1 acc-col">
+                <input type="button" class="btn btn-dark" id="save-button" value="Сохранить" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="right" data-bs-content="">
+            </div>
+        </div>
+    </div>   
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src={% static 'js/account.js' %}></script>
+{% endblock %}

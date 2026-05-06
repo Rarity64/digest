@@ -1,0 +1,20 @@
+.confirm {
+    margin-left: 5%;
+    margin-right: 2rem;
+    margin-top: 2rem;
+    height: 80vh;
+    width: 30%;
+}
+
+#confirm-button {
+    margin-top: 2rem;
+    margin-bottom: 2rem; 
+    width: 100%;
+}
+
+@media screen and (max-width: 600px) {
+    .confirm {
+        margin-left: 0;
+        width: 100%;
+    }
+}

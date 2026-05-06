@@ -1,0 +1,44 @@
+footer {
+  width: 100%;
+}
+
+.footer-info {
+  color: white;
+  font-size: 16pt;
+  text-align: center;
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-top: 2rem;
+  padding-bottom: 0.5rem;
+  width: 30%;
+  margin: 0 auto;
+  line-height: 1.55rem;
+  width: 100%;
+}
+
+.footer-text {
+  font-size: 1.25rem;
+  font-weight: 450;
+}
+
+.footer-icons {
+  padding-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon {
+  width: 1.75rem;
+  height: 1.75rem;
+  fill: white;
+  margin: 0 0.8rem 0rem 0.8rem;
+}
+
+#telegram:hover {
+  fill: #229ED9;
+}
+
+#vk:hover {
+  fill: #0077FF;
+}
