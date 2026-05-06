@@ -47,7 +47,7 @@ CLOUD_MODEL = 'your_model'
 This project is using Django 6.0.5.
 
 ```shell
-pip install Django==6.0.5 requests bs4 lxml
+pip install Django==6.0.5 requests bs4 lxml openai
 ```
 
 You must create *personal_info.py* alongside *digest/settings.py* and write the following.
@@ -118,7 +118,7 @@ CLOUD_MODEL = 'your_model'
 Данный проект использует Django 6.0.5.
 
 ```shell
-pip install Django==6.0.5 requests bs4 lxml
+pip install Django==6.0.5 requests bs4 lxml openai
 ```
 
 Создайте *personal_info.py* возле *digest/settings.py* и напишите следующее.

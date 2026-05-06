@@ -5,6 +5,7 @@ from . import lentaru
 from . import kommersant
 from . import vedomosti
 from . import bashinform
+import sys
 
 def habr_get():
     from_habr = sum((habr.main(i) for i in range(1, 2)), [])
@@ -39,11 +40,28 @@ def lentaru_get():
     ]
     return result
 
+def kommersant_title(i):
+    title = i['Title']
+    subtitle = i['Subtitle']
+    if isinstance(title, list):
+        print('Title:', title, file=sys.stderr)
+        title = '; '.join(title)
+    if isinstance(subtitle, list):
+        print('Subtitle:', subtitle, file=sys.stderr)
+        subtitle = '; '.join(subtitle)
+    if title and subtitle:
+        return title + '. ' + subtitle
+    elif title:
+        return title
+    elif subtitle:
+        return subtitle
+    return ''
+
 def kommersant_get():
     from_kommersant = kommersant.get_newsline()
     result = [
         {
-            'title': i['Title'] + '. ' + i['Subtitle'],
+            'title': kommersant_title(i),
             'url': f'https://www.kommersant.ru/doc/{i['DocId']}',
         }
         for i in from_kommersant

@@ -1,0 +1,3 @@
+CLOUD_MODEL = "yandexgpt-5.1/latest"
+CLOUD_MODEL = "gemma-3-27b-it/latest"
+CLOUD_MODEL = "deepseek-v32/latest"
