@@ -3,7 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import sys
-from cached30min import get_cached_text
+from .cached30min import get_cached_text
 
 def main(page=1):
     url = 'https://www.gazeta.ru/'

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from cached30min import get_cached_text
+from .cached30min import get_cached_text
 import time
 import json
 

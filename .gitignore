@@ -1,5 +1,6 @@
 # Personal files
 personal_info.py
+cache
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

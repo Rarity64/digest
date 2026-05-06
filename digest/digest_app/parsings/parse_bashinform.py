@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import psycopg
 import datetime
 import sys
 import os

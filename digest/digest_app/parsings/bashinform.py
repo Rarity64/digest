@@ -3,8 +3,8 @@
 # curl 'https://api.bashinform.ru/site/matters?rubric&kind=news_item&page=100' -H 'domain: www.bashinform.ru'
 from bs4 import BeautifulSoup
 import json
-from cached30min import get_cached_text
-from parse_bashinform import article_card_parse
+from .cached30min import get_cached_text
+from .parse_bashinform import article_card_parse
 
 def destructive_parse_a(a, out=dict):
     href = a.get('href')

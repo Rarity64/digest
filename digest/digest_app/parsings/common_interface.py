@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-import habr
-import gazetaru
-import lentaru
-import kommersant
-import vedomosti
-import bashinform
+from . import habr
+from . import gazetaru
+from . import lentaru
+from . import kommersant
+from . import vedomosti
+from . import bashinform
 
 def habr_get():
     from_habr = sum((habr.main(i) for i in range(50)), [])
