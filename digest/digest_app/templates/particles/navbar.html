@@ -1,0 +1,43 @@
+<nav class="navbar navbar-expand-xl navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <i class="fa-solid fa-newspaper" style="color: #FFFFCC;"></i>
+            Дайджест новостей
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/">Главная</a>
+                </li>
+                <li class="nav-item dropdown">
+                    {% if username %}
+                    <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">{{ username }}</a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" id="account-link" href={% url 'account' %}>Профиль</a>
+                            <a class="dropdown-item" id="logout-link" href={% url 'logout' %}>Выйти</a>
+                        </li>
+                    </ul>
+                    {% else %}
+                    <a href={% url 'auth' %} class="nav-link">Вход / Регистрация</a>
+                    {% endif %}
+                </li>
+                {% if username %}
+                <li class="nav-item">
+                    {% comment %} <a class="nav-link" href={% url 'digest_desktop' %}>Рабочий стол</a> {% endcomment %}
+                    <a class="nav-link" href="#">Рабочий стол</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href={% url 'auth' %}>Рабочий стол</i></a>
+                </li>            
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

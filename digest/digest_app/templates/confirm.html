@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Подтверждение{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href={% static 'css/confirm.css' %}></link>
+{% endblock %}
+
+{% block content %}
+    {% csrf_token %}
+    <div class="container confirm">
+        <label for="first-name" class="form-label">Код</label>
+        <input type="text" class="form-control" id="email-code" placeholder="Введите код из вашего почтового ящика">
+
+        <input type="button" class="btn btn-dark" id="confirm-button" value="Подтвердить">
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src={% static 'js/confirm.js' %}></script>
+{% endblock %}

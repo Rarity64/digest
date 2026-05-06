@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Авторизация{% endblock %}
+
+{% block css %}<link rel="stylesheet" href={% static 'css/auth.css' %}>{% endblock %}
+
+{% block content %}
+    {% csrf_token %}
+    <div class="container auth">
+        <label for="email" class="form-label">Электронная почта</label>
+        <input type="email" class="form-control" id="email" placeholder="Введите почту">
+        <label for="password" class="form-label" id="password-label">Пароль</label>
+        <input type="password" class="form-control" id="password" placeholder="Введите пароль">
+        <input type="button" class="btn btn-dark" id="auth-button" value="Войти">
+        <div class="reg-container">
+            <a href="{% url 'reg' %}" class="reg-link" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="right" data-bs-content="">Зарегистрироваться</a>
+        </div>
+    </div>   
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src={% static 'js/auth.js' %}></script>
+{% endblock %}
