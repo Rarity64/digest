@@ -15,18 +15,18 @@ else:
 
 load_dotenv()
 
-YANDEX_CLOUD_FOLDER = os.getenv("YANDEX_CLOUD_FOLDER")
-YANDEX_CLOUD_API_KEY = os.getenv("YANDEX_CLOUD_API_KEY")
-YANDEX_CLOUD_MODEL = os.getenv("YANDEX_CLOUD_MODEL")
+CLOUD_FOLDER = os.getenv("CLOUD_FOLDER")
+CLOUD_API_KEY = os.getenv("CLOUD_API_KEY")
+CLOUD_MODEL = os.getenv("CLOUD_MODEL")
 
 client = openai.OpenAI(
-  api_key=YANDEX_CLOUD_API_KEY,
+  api_key=CLOUD_API_KEY,
   base_url="https://ai.api.cloud.yandex.net/v1",
-  project=YANDEX_CLOUD_FOLDER
+  project=CLOUD_FOLDER
 )
 
 response = client.responses.create(
-  model=f"gpt://{YANDEX_CLOUD_FOLDER}/{YANDEX_CLOUD_MODEL}",
+  model=f"gpt://{CLOUD_FOLDER}/{CLOUD_MODEL}",
   temperature=0.3,
   instructions="Отвечай кратко и по-русски. Как ты должен понимать важность информации: пиши о событиях, которые действительно случились. Пиши о законах, которые приняты, а не просто обсуждаются.",
   input=f"Составь дайджест с этой страницы {url_response.text[:1000]}, выдели оттуда важную информацию.",
