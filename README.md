@@ -43,6 +43,12 @@ This project is using Django 6.0.5.
 pip install Django==6.0.5
 ```
 
+You should apply migrations.
+
+```shell
+py manage.py migrate
+```
+
 Next you should run the server.
 
 ```shell
@@ -53,33 +59,33 @@ py manage.py runserver
 ## Необходимые инструменты и запуск
 
 ### venv 
-Вы должны создать папку *venv*.
+Создайте папку *venv*.
 
 ```shell
 python -m venv venv
 ```
 
-Например, чтобы активировать *venv* в Bash вы должны написать команду.
+Например, чтобы активировать *venv* в Bash напишите команду.
 
 ```shell
 source venv/bin/activate
 ```
 
-Чтобы активировать *venv* в PowerShell вы должны написать.
+Чтобы активировать *venv* в PowerShell напишите.
 
 ```shell
 venv\Scripts\Activate.ps1
 ```
 
 ### dotenv
-Вы должны установить *dotenv*.
+Установите *dotenv*.
 
 ```Bash
 pip install dotenv
 ```
 
 ### .env
-Вы должны создать файл *.env* файл в главной папке проекта и написать следующий код.
+Создайте файл *.env* файл в главной папке проекта и напишите следующий код.
 
 ```Python
 CLOUD_FOLDER = 'your_cloud_folder'
@@ -94,7 +100,13 @@ CLOUD_MODEL = 'your_model'
 pip install Django==6.0.5
 ```
 
-Далее вы должны запустить сервер.
+Подтвердите миграции.
+
+```shell
+py manage.py migrate
+```
+
+Далее запустите сервер.
 
 ```shell
 py manage.py runserver
