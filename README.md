@@ -1,6 +1,13 @@
 # EN
 ## Necessary tools and running
 
+### django project root
+The project folder (where README.md is located) is distinct from the django project root folder (where manage.py is located), and before you enter the commands related to venv and others, you must go to the django project root folder.
+
+```shell
+cd digest
+```
+
 ### venv
 You must create *venv* folder.
 
@@ -40,7 +47,14 @@ CLOUD_MODEL = 'your_model'
 This project is using Django 6.0.5.
 
 ```shell
-pip install Django==6.0.5
+pip install Django==6.0.5 requests bs4 lxml
+```
+
+You must create *personal_info.py* alongside *digest/settings.py* and write the following.
+
+```Python
+MY_EMAIL_HOST_USER = 'your-email@example.com'
+MY_EMAIL_HOST_PASSWORD = 'password-generated-for-SMTP'
 ```
 
 You should apply migrations.
@@ -57,6 +71,13 @@ py manage.py runserver
 
 # RU
 ## Необходимые инструменты и запуск
+
+### корневая папка проекта django
+Папка проекта (где находится README.md) отличается от корневой папки проекта django (где находится manage.py), и перед вводом команд, относящихся к venv и другому, необходимо перейти в корневую папку проекта django.
+
+```
+cd django
+```
 
 ### venv 
 Создайте папку *venv*.
@@ -97,7 +118,14 @@ CLOUD_MODEL = 'your_model'
 Данный проект использует Django 6.0.5.
 
 ```shell
-pip install Django==6.0.5
+pip install Django==6.0.5 requests bs4 lxml
+```
+
+Создайте *personal_info.py* возле *digest/settings.py* и напишите следующее.
+
+```Python
+MY_EMAIL_HOST_USER = 'your-email@example.com'
+MY_EMAIL_HOST_PASSWORD = 'password-generated-for-SMTP'
 ```
 
 Подтвердите миграции.

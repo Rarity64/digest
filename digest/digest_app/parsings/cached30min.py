@@ -22,14 +22,14 @@ def get_cached_text(url):
             mtime = os.path.getmtime(filepath)
             seconds_ago = time.time() - mtime
             if seconds_ago < 1800:
-                with open(cache_path + '/' + filename) as f:
+                with open(cache_path + '/' + filename, encoding='utf-8') as f:
                     return f.read()
     else:
         Path(cache_path).mkdir(exist_ok=True)
-    with open(cache_path + '/' + filename, 'w') as f:
+    with open(cache_path + '/' + filename, 'w', encoding='utf-8') as f:
         print(f'new visit: {url}', file=sys.stderr)
         f.write(requests.get(url).text)
-    with open(cache_path + '/' + filename) as f:
+    with open(cache_path + '/' + filename, encoding='utf-8') as f:
         return f.read()
 
 def main(page=1):

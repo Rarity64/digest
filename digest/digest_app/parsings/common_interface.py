@@ -7,7 +7,7 @@ from . import vedomosti
 from . import bashinform
 
 def habr_get():
-    from_habr = sum((habr.main(i) for i in range(50)), [])
+    from_habr = sum((habr.main(i) for i in range(1, 2)), [])
     result = [
         {
             'title': i['title'],
