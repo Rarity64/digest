@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Дайджест{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+<link rel="stylesheet" href="{% static 'css/digest_desktop.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container digest-page">
+    <div class="digest-layout">
+
+        <aside class="digest-sidebar">
+            <h3 class="digest-sidebar-title">Источники</h3>
+
+            <div class="source-list">
+                <button class="source-item" data-source="habr.com">
+                    <img src="https://www.google.com/s2/favicons?domain=habr.com&sz=64" alt="Habr">
+                    <span>habr.com</span>
+                </button>
+
+                <button class="source-item" data-source="gazeta.ru">
+                    <img src="https://www.google.com/s2/favicons?domain=gazeta.ru&sz=64" alt="Газета.Ru">
+                    <span>gazeta.ru</span>
+                </button>
+
+                <button class="source-item" data-source="bashinform.ru">
+                    <img src="https://www.google.com/s2/favicons?domain=bashinform.ru&sz=64" alt="Башинформ">
+                    <span>bashinform.ru</span>
+                </button>
+
+                <button class="source-item" data-source="kommersant.ru">
+                    <img src="https://www.google.com/s2/favicons?domain=kommersant.ru&sz=64" alt="Коммерсантъ">
+                    <span>kommersant.ru</span>
+                </button>
+
+                <button class="source-item" data-source="lenta.ru">
+                    <img src="https://www.google.com/s2/favicons?domain=lenta.ru&sz=64" alt="Лента.ру">
+                    <span>lenta.ru</span>
+                </button>
+
+                <button class="source-item" data-source="vedomosti.ru">
+                    <img src="https://www.google.com/s2/favicons?domain=vedomosti.ru&sz=64" alt="Ведомости">
+                    <span>vedomosti.ru</span>
+                </button>
+            </div>
+        </aside>
+
+        <main class="digest-chat">
+            <div class="digest-chat-header">
+                <h3 id="selected-source-title">Выберите источник</h3>
+                <div id="digest-spinner" class="spinner-border hidden" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+
+            <div id="digest-content" class="digest-content empty-state">
+                <p>Слева выберите новостной источник, чтобы сформировать дайджест.</p>
+            </div>
+        </main>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const sourceButtons = document.querySelectorAll('.source-item');
+    const title = document.getElementById('selected-source-title');
+    const content = document.getElementById('digest-content');
+    const spinner = document.getElementById('digest-spinner');
+
+    function showSpinner() {
+        spinner.classList.remove('hidden');
+    }
+
+    function hideSpinner() {
+        spinner.classList.add('hidden');
+    }
+
+    function renderNewsList(news, titleText, typeClass) {
+        let html = `<h4 class="news-group-title">${titleText}</h4>`;
+
+        if (!news || news.length === 0) {
+            html += `<p class="empty-message">Новостей не найдено.</p>`;
+            return html;
+        }
+
+        news.forEach(item => {
+            html += `
+                <div class="news-message ${typeClass}">
+                    <a href="${item.url}" target="_blank" class="news-title">${item.title}</a>
+                    <p class="news-description">${item.description || ''}</p>
+                </div>
+            `;
+        });
+
+        return html;
+    }
+
+    sourceButtons.forEach(button => {
+        button.addEventListener('click', async function () {
+            const source = this.dataset.source;
+
+            sourceButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+
+            title.textContent = source;
+            content.className = 'digest-content';
+            content.innerHTML = `<p class="empty-message">Получаем новости из источника...</p>`;
+
+            showSpinner();
+
+            try {
+                const allNewsResponse = await fetch(`/digest/all-news/?source=${encodeURIComponent(source)}`);
+                const allNewsData = await allNewsResponse.json();
+
+                content.innerHTML = renderNewsList(
+                    allNewsData.news,
+                    'Все найденные новости',
+                    'all-news'
+                );
+
+                const importantNewsResponse = await fetch(`/digest/important-news/?source=${encodeURIComponent(source)}`);
+                const importantNewsData = await importantNewsResponse.json();
+
+                content.innerHTML =
+                    renderNewsList(importantNewsData.news, 'Важные новости', 'all-news');
+
+            } catch (error) {
+                content.innerHTML = `<p class="error-message">Ошибка при загрузке дайджеста.</p>`;
+                console.error(error);
+            } finally {
+                hideSpinner();
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

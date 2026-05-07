@@ -7,9 +7,9 @@ import sys
 import time
 
 try:
-    from .digest.digest_app.parsings.common_interface import get_news
+    from .common_interface import get_news
 except ImportError:
-    from digest.digest_app.parsings.common_interface import get_news
+    from common_interface import get_news
 
 load_dotenv()
 

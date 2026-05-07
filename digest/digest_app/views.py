@@ -5,9 +5,11 @@ from django.http import JsonResponse, HttpResponse
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
 from .models import UserProfile, EmailDigest, EmailCode
-from django.core.exceptions import ValidationError, ObjectDoesNotExist
+from django.core.exceptions import ValidationError, ObjectDoesNotExist, PermissionDenied
 import random
 import threading
+from .parsings.common_interface import get_news
+from .parsings.news_digest import get_important_news
 
 def index(request):
     #news = get_news()
@@ -160,3 +162,35 @@ def account(request):
             return render(request, 'account.html', context)
     except AttributeError:
         return HttpResponse('<h1>401 Unauthorized</h1>', status=401)
+
+def digest_desktop(request):
+    if request.user.is_authenticated:
+        context = { 'username' : request.user.username }
+        return render(request, 'digest_desktop.html', context)
+    else:
+        raise PermissionDenied
+
+django_to_parsings = {
+    'habr.com': 'habr',
+    'gazeta.ru': 'gazetaru',
+    'lenta.ru': 'lentaru',
+    'kommersant.ru': 'kommersant',
+    'vedomosti.ru': 'vedomosti',
+    'bashinform.ru': 'bashinform',
+}
+
+def all_news(request):
+    if not request.user.is_authenticated:
+        raise PermissionDenied
+    source = request.GET.get('source')
+    parsings_source = django_to_parsings[source]
+    result = get_news(parsings_source)
+    return JsonResponse({'status': 'success', 'news': result})
+
+def important_news(request):
+    if not request.user.is_authenticated:
+        raise PermissionDenied
+    source = request.GET.get('source')
+    parsings_source = django_to_parsings[source]
+    result = get_important_news(parsings_source)
+    return JsonResponse({'status': 'success', 'news': result})
