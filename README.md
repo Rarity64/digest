@@ -40,7 +40,9 @@ You must create *.env* file in main project folder and write the following.
 ```Python
 CLOUD_FOLDER = 'your_cloud_folder'
 CLOUD_API_KEY = 'your_api_key'
-CLOUD_MODEL = 'your_model'
+CLOUD_MODEL = 'your_model,optional_fallback_model,...'
+SERVER_ADMIN_KEY = 'your_custom_secret_key'
+SALT = 'your_custom_secret_salt'
 ```
 
 ### Django
@@ -67,6 +69,22 @@ Next you should run the server.
 
 ```shell
 py manage.py runserver
+```
+
+To send the digest to the subscribers every sunday at noon in system local time, use an external scheduler. The following is an example for Alpine Linux.
+
+Run `crontab -e` and add the following line.
+
+```
+# min   hour    day     month   weekday command
+0       12      *       *       0       /path/to/this/project/send_emails.sh
+```
+
+Make sure the cron scheduler is running.
+
+```shell
+sudo rc-update add crond
+sudo rc-service crond start
 ```
 
 # RU
@@ -111,7 +129,9 @@ pip install dotenv
 ```Python
 CLOUD_FOLDER = 'your_cloud_folder'
 CLOUD_API_KEY = 'your_api_key'
-CLOUD_MODEL = 'your_model'
+CLOUD_MODEL = 'your_model,optional_fallback_model,...'
+SERVER_ADMIN_KEY = 'your_custom_secret_key'
+SALT = 'your_custom_secret_salt'
 ```
 
 ### Django
@@ -138,4 +158,20 @@ py manage.py migrate
 
 ```shell
 py manage.py runserver
+```
+
+Чтобы посылать дайджест подписчикам каждое воскресенье в полдень по локальному времени системы, используйте внешний планировщик. Далее пример для Alpine Linux.
+
+Выполните `crontab -e` и добавьте следующую строчку.
+
+```
+# минута  час     день    месяц   день недели  команда
+0         12      *       *       0            /path/to/this/project/send_emails.sh
+```
+
+Убедитесь, что планировщик cron запущен.
+
+```shell
+sudo rc-update add crond
+sudo rc-service crond start
 ```

@@ -14,5 +14,7 @@ urlpatterns = [
     path('digest_desktop/', views.digest_desktop, name='digest_desktop'),
     path('digest/all-news/', views.all_news, name='all_news'),
     path('digest/important-news/', views.important_news, name='important_news'),
+    path('do/', views.do, name='do'),
+    path('unsubscribe/', views.unsubscribe, name='unsubscribe'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

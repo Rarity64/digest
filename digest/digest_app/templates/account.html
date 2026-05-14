@@ -38,6 +38,11 @@
                 <input type="password" class="form-control" id="password" placeholder="Введите пароль" value="{{ password }}">
             </div>
 
+            <div class="col-1 acc-col checkbox-wrapper">
+                <input type="checkbox" class="form-check-input" id="subscribed" placeholder="Подписка" value="issubscribed" {% if subscribed %}checked{% endif %}>
+                <label for="subscribed" class="form-check-label reg-label">Подписаться на почтовую рассылку по воскресеньям в 12:00 по уфимскому времени</label>
+            </div>
+
             <div class="col-1 acc-col">
                 <input type="button" class="btn btn-dark" id="save-button" value="Сохранить" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="right" data-bs-content="">
             </div>

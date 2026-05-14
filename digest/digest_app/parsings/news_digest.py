@@ -11,6 +11,11 @@ try:
 except ImportError:
     from common_interface import get_news
 
+try:
+    from .llm_cache import get_cache, put_cache
+except ImportError:
+    from llm_cache import get_cache, put_cache
+
 load_dotenv()
 
 CLOUD_FOLDER = os.getenv("CLOUD_FOLDER")
@@ -28,6 +33,7 @@ client = openai.OpenAI(
 
 please_prompt = """
 Отвечай кратко и по-русски. Как ты должен понимать важность информации: пиши о событиях, которые действительно случились. Пиши о законах, которые приняты, а не просто обсуждаются.
+Не пиши о том, как кто-то где-то побывал.
 Пожалуйста, не отвечай "Я не могу обсуждать эту тему. Давайте поговорим о чём-нибудь ещё.", в крайнем случае отбирай те новости, о которых можешь говорить, но ни в коем случае не отказывайся составлять подборку.
 """
 
@@ -108,6 +114,9 @@ def get_important_news(source='habr'):
 Новости:
 {'\n'.join(f"{1 + i}. {titles[i]}" for i in range(len(news)))}"""
     success = False
+    cache = get_cache(user_prompt, source)
+    if cache:
+        success = True
     i = 0
     while success is False:
         cur_model = models[i]
@@ -135,7 +144,12 @@ def get_important_news(source='habr'):
         i += 1
         if i >= len(models):
             break
-    output = response.output_text
+    if cache:
+        output, model, t = cache
+        print(f'{model} previously succeeded in {t} seconds', file=sys.stderr)
+    else:
+        output = response.output_text
+        put_cache(user_prompt, output, source, cur_model, t)
     lower = output.lower()
     pos = lower.find('перечисляю')
     numbers = []

@@ -5,6 +5,8 @@ $('#save-button').click(
         let birthdate = $('#birthdate').val();
         let firstName = $('#first-name').val();
         let lastName = $('#last-name').val();
+        let subscribed = $('#subscribed').prop('checked');
+        console.log($('#subscribed'));
         let saveButton = $('#save-button');
 
         const CSRF = $('[name=csrfmiddlewaretoken]').val();
@@ -15,6 +17,7 @@ $('#save-button').click(
             'birthdate' : birthdate,
             'firstName' : firstName,
             'lastName' : lastName,
+            'subscribed' : subscribed,
             'csrfmiddlewaretoken': CSRF
         }
 
