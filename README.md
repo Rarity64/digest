@@ -87,6 +87,27 @@ sudo rc-update add crond
 sudo rc-service crond start
 ```
 
+Before running in production, disable *DEBUG* in *digest/settings.py* as follows.
+
+```python
+DEBUG = False
+```
+
+And replace *SECRET_KEY* right above with a newly generated secret key. Generate it as follows. Do not use the key from this manual, generate your own.
+
+```
+$ python manage.py shell
+15 objects imported automatically (use -v 2 for details).
+
+Python 3.12.13 (main, Apr 10 2026, 13:58:11) [GCC 15.2.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from django.core.management.utils import get_random_secret_key
+>>> print(get_random_secret_key())
+e2&6dg+t8w0%4*9b167+jv^vvf7fuo)0+1oszm)*w0#&4ix0n2
+>>> exit()
+```
+
 # RU
 ## Необходимые инструменты и запуск
 
@@ -174,4 +195,25 @@ py manage.py runserver
 ```shell
 sudo rc-update add crond
 sudo rc-service crond start
+```
+
+Перед запуском на боевом сервере, выключите *DEBUG* в *digest/settings.py* следующим образом.
+
+```python
+DEBUG = False
+```
+
+И замените *SECRET_KEY* чуть выше на вновь сгенерированный секретный ключ. Сгенерируйте его следующим образом. Не берите ключ из этой инструкции, сгенерируйте свой.
+
+```
+$ python manage.py shell
+15 objects imported automatically (use -v 2 for details).
+
+Python 3.12.13 (main, Apr 10 2026, 13:58:11) [GCC 15.2.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from django.core.management.utils import get_random_secret_key
+>>> print(get_random_secret_key())
+e2&6dg+t8w0%4*9b167+jv^vvf7fuo)0+1oszm)*w0#&4ix0n2
+>>> exit()
 ```
