@@ -14,7 +14,12 @@ def destructive_parse_a(a, out=dict):
     texts = [i.text.strip() for i in spans]
     for i in spans:
         i.decompose()
-    title = a.text.strip()
+    title_parts = [
+        s.strip()
+        for s in a.find_all(string=True, recursive=True)
+        if s.strip() and s.strip() not in '[]'
+    ]
+    title = '. '.join(title_parts)
     obj = {
         'href': href,
         'title': title,
