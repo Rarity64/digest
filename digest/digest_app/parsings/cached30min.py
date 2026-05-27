@@ -32,6 +32,22 @@ def get_cached_text(url):
     with open(cache_path + '/' + filename, encoding='utf-8') as f:
         return f.read()
 
+def clear_cache(url=None, as_glob=True):
+    if url:
+        filename = url.replace("://", "_").replace("/", "_").replace("?", "_")
+        if as_glob:
+            for filepath in Path(cache_path).glob(filename):
+                filepath.unlink()
+        else:
+            filepath = cache_path + '/' + filename
+            if Path(filepath).is_file():
+                Path(filepath).unlink()
+    else:
+        for filepath in Path(cache_path).glob("http_*"):
+            filepath.unlink()
+        for filepath in Path(cache_path).glob("https_*"):
+            filepath.unlink()
+
 def main(page=1):
     url = 'https://habr.com/'
     if page > 1:
