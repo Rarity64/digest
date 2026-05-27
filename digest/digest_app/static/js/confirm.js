@@ -4,7 +4,7 @@ $('#confirm-button').click(
         let confirmButton = $('#confirm-button');
 
         confirmButton.prop('disabled', true);
-        confirmButton.prop('hidden', true);
+        // confirmButton.prop('hidden', true);
         $('.confirm').append(`
             <div id="confirm-spinner" class="spinner-border mt-2" role="status">
                 <span class="visually-hidden">Loading...</span>
@@ -33,6 +33,7 @@ $('#confirm-button').click(
                     $('#confirm-spinner').remove();
                     confirmButton.val(xhr.responseJSON.message);
                     confirmButton.css('background-color', 'red');
+                    confirmButton.prop('disabled', false);
                 }
             }   
         });

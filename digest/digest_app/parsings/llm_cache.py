@@ -48,3 +48,15 @@ def put_cache(inp, out, topic=None, model=None, time=None):
     }
     with open(fullname, 'w', encoding='utf-8') as f:
         f.write(json.dumps(obj, separators=(',', ':'), ensure_ascii=False))
+
+def clear_cache(topic=None, inp=None):
+    if not topic:
+        if not inp:
+            for filepath in Path(cache_path).glob('llm_cache_*.json'):
+                filepath.unlink()
+            return
+        topic = filename_hash(inp)
+    filename = 'llm_cache_' + topic + '.json'
+    fullname = cache_path + '/' + filename
+    if Path(fullname).is_file():
+        Path(fullname).unlink()

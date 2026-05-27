@@ -11,6 +11,7 @@ import threading
 from .parsings.common_interface import get_news
 from .parsings.news_digest import get_important_news
 from .parsings.server_admin_key import check, get_salt
+from .parsings.cache_manager import clear_cache
 import hashlib
 from urllib.parse import urlencode
 from django.conf import settings
@@ -386,4 +387,9 @@ def do(request):
     action = request.GET.get('action')
     if action == 'email_everything_to_everyone':
         return email_everything_to_everyone()
+    if action == 'clear_cache':
+        source = request.GET.get('source')
+        kind = request.GET.get('kind')
+        clear_cache(source, kind)
+        return JsonResponse({'status': 'success'})
     return JsonResponse({'status': 'failure', 'error': 'unknown action'}, status=404)
