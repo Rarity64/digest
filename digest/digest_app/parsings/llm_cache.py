@@ -18,6 +18,7 @@ def filename_hash(obj):
     return payload_hash
 
 def get_cache(inp, topic=None):
+    return None
     if not topic:
         topic = filename_hash(inp)
     search_by = inp if isinstance(inp, str) else filename_hash(inp)

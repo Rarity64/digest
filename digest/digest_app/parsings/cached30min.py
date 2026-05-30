@@ -15,6 +15,7 @@ if 'CACHE_PATH' in os.environ:
     cache_path = os.environ['CACHE_PATH']
 
 def get_cached_text(url):
+    return requests.get(url).text
     filename = url.replace("://", "_").replace("/", "_").replace("?", "_")
     if Path(cache_path).is_dir():
         filepath = cache_path + '/' + filename
