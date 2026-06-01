@@ -15,6 +15,9 @@ from .parsings.cache_manager import clear_cache
 import hashlib
 from urllib.parse import urlencode
 from django.conf import settings
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 def index(request):
     try:
@@ -190,6 +193,8 @@ def account(request):
 
 def digest_desktop(request):
     if request.user.is_authenticated:
+        CLOUD_MODEL = os.getenv("CLOUD_MODEL")
+        print('Current model:', CLOUD_MODEL)
         context = { 'username' : request.user.username }
         return render(request, 'digest_desktop.html', context)
     else:
@@ -217,6 +222,7 @@ def important_news(request):
         raise PermissionDenied
     source = request.GET.get('source')
     parsings_source = django_to_parsings[source]
+    print(f'parsings_source: {parsings_source}')
     result = get_important_news(parsings_source)
     return JsonResponse({'status': 'success', 'news': result})
 
