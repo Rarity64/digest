@@ -5,6 +5,7 @@ import requests
 import openai
 import sys
 import time
+import json
 from .common_interface import get_news
 from .llm_cache import get_cache, put_cache
 
@@ -101,21 +102,8 @@ def get_important_news(source='habr'):
         output = response.output_text
         put_cache(user_prompt, output, source, cur_model, t)
     #'```\n{"numbers":[1,4,7,12,17,18,19]}\n```'
-    lower = output.lower()
-    pos = lower.find('перечисляю')
-    numbers = []
-    digits = False
-    for i in lower[pos:]:
-        if digits is False:
-            if i.isdigit():
-                numbers.append(i)
-                digits = True
-        elif digits is True:
-            if i.isdigit():
-                numbers[-1] += i
-            else:
-                digits = False
-    indexes = [int(i) - 1 for i in numbers]
+    output_object = json.loads(output)
+    indexes = [i - 1 for i in output_object['numbers']]
     result = [news[i] for i in indexes]
     return result
 
