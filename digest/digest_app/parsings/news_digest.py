@@ -5,6 +5,7 @@ import requests
 import openai
 import sys
 import time
+import random
 
 try:
     from .common_interface import get_news
@@ -22,8 +23,10 @@ CLOUD_FOLDER = os.getenv("CLOUD_FOLDER")
 CLOUD_API_KEY = os.getenv("CLOUD_API_KEY")
 CLOUD_MODEL = os.getenv("CLOUD_MODEL")
 CLOUD_TIMEOUT = float(os.getenv("CLOUD_TIMEOUT", "20"))
-CLOUD_MIN_SYMBOLS = int(os.getenv("CLOUD_MIN_SYMBOLS", "100"))
+CLOUD_MIN_SYMBOLS = int(os.getenv("CLOUD_MIN_SYMBOLS", "1"))
 models = CLOUD_MODEL.split(sep=',')
+
+RANDOM = os.getenv("RANDOM", "after").strip().lower()
 
 client = openai.OpenAI(
     api_key=CLOUD_API_KEY,
@@ -37,80 +40,18 @@ please_prompt = """
 Пожалуйста, не отвечай "Я не могу обсуждать эту тему. Давайте поговорим о чём-нибудь ещё.", в крайнем случае отбирай те новости, о которых можешь говорить, но ни в коем случае не отказывайся составлять подборку.
 """
 
-def top_news(source='habr'):
-    result = get_news(source)
-    titles = [i['title'] for i in result]
-    urls = [i['url'] for i in result]
-    user_prompt = f"""Я пронумерую новости от 1 до {len(result)}.
-Твоя задача выбрать до десяти наиболее важных новостей и объяснить почему именно они.
-В самом конце кратко перечисли их номера через запятую после слова "Перечисляю: ".
-Новости:
-{'\n'.join(f"{1 + i}. {titles[i]}" for i in range(len(result)))}"""
-    system_prompt = "Отвечай кратко и по-русски. Как ты должен понимать важность информации: пиши о событиях, которые действительно случились. Пиши о законах, которые приняты, а не просто обсуждаются."
-    print(user_prompt)
-    print('   ---   ')
-    success = False
-    i = 0
-    while success is False:
-        cur_model = models[i]
-        try:
-            time_a = time.perf_counter()
-            response = client.responses.create(
-                model=f"gpt://{CLOUD_FOLDER}/{cur_model}",
-                temperature=0.3,
-                instructions=please_prompt,
-                input=please_prompt + user_prompt,
-                max_output_tokens=1000,
-                timeout=CLOUD_TIMEOUT
-            )
-            time_b = time.perf_counter()
-            t = time_b - time_a
-            if len(response.output_text) >= CLOUD_MIN_SYMBOLS:
-                success = True
-            else:
-                print(f'{cur_model} failed: too few symbols', file=sys.stdout)
-        except openai.APIError as e:
-            print(f'{cur_model} failed: {e}', file=sys.stderr)
-            pass
-        if success is True:
-            print(f'{cur_model} succeeded in {t} seconds', file=sys.stderr)
-        i += 1
-        if i >= len(models):
-            break
-    output = response.output_text
-    print(output)
-    print('   ---   ')
-    lower = output.lower()
-    pos = lower.find('перечисляю')
-    numbers = []
-    digits = False
-    for i in lower[pos:]:
-        if digits is False:
-            if i.isdigit():
-                numbers.append(i)
-                digits = True
-        elif digits is True:
-            if i.isdigit():
-                numbers[-1] += i
-            else:
-                digits = False
-    numbers = [int(i) for i in numbers]
-    for i in numbers:
-        news_item = result[i - 1]
-        print(f"{i}. {news_item['title']}")
-        print(f"{' ' * (len(str(i)) + 2)}{news_item['url']}")
-    print('   ---   ')
-
 def get_important_news(source='habr'):
     if isinstance(source, list):
         news = source
     else:
         news = get_news(source)
+    if RANDOM in ['before', 'always']:
+        return random.sample(news, min(5, len(news)))
     titles = [i['title'] for i in news]
     urls = [i['url'] for i in news]
     user_prompt = f"""Я пронумерую новости от 1 до {len(news)}.
-Твоя задача выбрать до десяти наиболее важных новостей и объяснить почему именно они.
-В самом конце кратко перечисли их номера через запятую после слова "Перечисляю: ".
+Твоя задача выбрать до десяти наиболее важных новостей и не писать ничего лишнего.
+Только кратко перечисли их номера через запятую после слова "Перечисляю: ".
 Новости:
 {'\n'.join(f"{1 + i}. {titles[i]}" for i in range(len(news)))}"""
     success = False
@@ -133,12 +74,15 @@ def get_important_news(source='habr'):
             time_b = time.perf_counter()
             t = time_b - time_a
             if len(response.output_text) >= CLOUD_MIN_SYMBOLS:
-                success = True
+                if response.output_text.lower().find('перечисляю') >= 0:
+                    success = True
+                else:
+                    print(f'{cur_model} failed: did not obey prompt')
             else:
                 print(f'{cur_model} failed: too few symbols', file=sys.stdout)
         except openai.APIError as e:
             print(f'{cur_model} failed: {e}', file=sys.stderr)
-            pass
+            api_error = e
         if success is True:
             print(f'{cur_model} succeeded in {t} seconds', file=sys.stderr)
         i += 1
@@ -148,8 +92,17 @@ def get_important_news(source='habr'):
         output, model, t = cache
         print(f'{model} previously succeeded in {t} seconds', file=sys.stderr)
     else:
-        output = response.output_text
-        put_cache(user_prompt, output, source, cur_model, t)
+        try:
+            output = response.output_text
+        except:
+            output = f'caught openai.APIError exception: {api_error}'
+            t = time.perf_counter() - time_a
+        if success:
+            put_cache(user_prompt, output, source, cur_model, t)
+        else:
+            put_cache(user_prompt, output, source + '_fail', cur_model, t)
+            if RANDOM:
+                return random.sample(news, min(5, len(news)))
     lower = output.lower()
     pos = lower.find('перечисляю')
     numbers = []
@@ -186,4 +139,4 @@ if __name__ == '__main__':
         chosen = int(input(f'Введите число от 1 до {len(sources)}: '))
         source = sources[indexes[chosen]]
         print('   ---   ')
-        top_news(source)
+        get_important_news(source)
