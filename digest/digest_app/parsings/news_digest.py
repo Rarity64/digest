@@ -71,7 +71,7 @@ def get_important_news(source='habr'):
             print(f'please_prompt: {please_prompt}')
             print(f'user_prompt: {user_prompt}')
             response = client.responses.create(
-                model=f"gpt://{CLOUD_FOLDER}/{CLOUD_MODEL}",
+                model=f"gpt://{CLOUD_FOLDER}/{cur_model}",
                 temperature=0.0,
                 instructions=please_prompt,
                 input=user_prompt,
