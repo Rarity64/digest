@@ -62,7 +62,7 @@ def kommersant_get():
     result = [
         {
             'title': kommersant_title(i),
-            'url': f'https://www.kommersant.ru/doc/{i['DocId']}',
+            'url': f'https://www.kommersant.ru/doc/{i["DocId"]}',
         }
         for i in from_kommersant
     ]
