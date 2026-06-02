@@ -84,6 +84,9 @@ def get_important_news(source='habr'):
             print(f'CLOUD_MIN_SYMBOLS: {CLOUD_MIN_SYMBOLS}')
             if response.output_text:
                 success = True
+                if response.output_text.find('{') == -1:
+                    print(f'{cur_model} failed: shield?', file=sys.stdout)
+                    success = False
             else:
                 print(f'{cur_model} failed: too few symbols', file=sys.stdout)
         except openai.APIError as e:
@@ -101,7 +104,7 @@ def get_important_news(source='habr'):
         output = response.output_text
         put_cache(user_prompt, output, source, cur_model, t)
     #'```\n{"numbers":[1,4,7,12,17,18,19]}\n```'
-    output_object = json.loads(output)
+    output_object = json.loads(output[output.find('{'):output.rfind('}')+1])
     indexes = [i - 1 for i in output_object['numbers']]
     result = [news[i] for i in indexes]
     return result
