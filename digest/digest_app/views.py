@@ -117,7 +117,7 @@ def confirm(request):
                         user.save()
                         email_code.delete()
                         login(request, user)
-                        return JsonResponse({'status' : 'success', 'redirect' : '/account/'})
+                        return JsonResponse({'status' : 'success', 'redirect' : '/digest_desktop/'})
                     else:
                         return JsonResponse({'status': 'error', 'message': 'Срок действия кода истек'}, status=400)
             except ObjectDoesNotExist:

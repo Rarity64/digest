@@ -25,7 +25,7 @@ $('#confirm-button').click(
             data: userData,
 
             success: function(data) {
-                window.location.href = '/';
+                window.location.href = '/digest_desktop/';
             },
 
             error: function(xhr) {

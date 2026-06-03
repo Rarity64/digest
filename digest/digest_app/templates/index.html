@@ -7,12 +7,20 @@
 
     {% block content %}<section class="hero header">
             <div class="container header-bg">
-                <h1 class="header-title">ИИ-дайджест новостных материалов с отправкой на электронную почту</h1>
+                <h1 class="header-title">ИИ-дайджест новостных материалов</h1>
                 <p class="text-header">
                     Система автоматически получает новые материалы с новостных сайтов,
                     анализирует их с использованием искусственного интеллекта, определяет значимость
                     публикаций и формирует структурированный результат для последующего создания дайджеста.
                 </p>
+
+                {% if not user.is_authenticated %}
+                <div class="reg-button-container">
+                    <a href="{% url 'reg' %}" class="btn btn-primary">
+                        Зарегистрироваться
+                    </a>
+                </div>
+                {% endif %}
             </div>
         </section>
         
