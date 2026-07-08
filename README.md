@@ -1,4 +1,4 @@
-# Digest — a free self-hosted program where users can read new content from selected sites.
+# Digest — a free self-hosted program where users can read new content from selected sites
 
 Read in [Russian](./README_RU.md)
 
