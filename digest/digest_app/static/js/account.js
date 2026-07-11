@@ -18,20 +18,25 @@ document.getElementById('save-button').addEventListener('click', function() {
         'csrfmiddlewaretoken': csrfToken
     }
 
-    $.ajax({
-        url: '/account/',
-        type: 'POST',
-        dataType: 'json',
-        data: userData,
+    const body = new URLSearchParams(userData);
 
-        success: 
-            function(data) {
-                saveButton.attr('data-bs-content', data.message);
+    fetch('/account/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: body
+    })
+        .then(response => response.json())
+        .then(data => {
+            saveButton.setAttribute('data-bs-content', data.message);
 
-                let popover = bootstrap.Popover.getInstance(saveButton[0]);
-                if(popover) popover.dispose();
-                popover = new bootstrap.Popover(saveButton[0]);
-                popover.show();
-            },
-    });
+            let popover = bootstrap.Popover.getInstance(saveButton);
+            if (popover) popover.dispose();
+            popover = new bootstrap.Popover(saveButton);
+            popover.show();
+        })
+        .catch(error => {
+            console.error('Ошибка при сохранении:', error);
+        });
 });
