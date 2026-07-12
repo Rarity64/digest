@@ -6,7 +6,7 @@ document.getElementById('save-button').addEventListener('click', function() {
     const lastName = document.getElementById('last-name').value;
     const subscribed = document.getElementById('subscribed').checked;
     const saveButton = document.getElementById('save-button');
-    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 
     const userData = {
         'email' : email,
