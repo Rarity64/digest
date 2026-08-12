@@ -1,22 +1,25 @@
+import os
+import random
+import threading
+import hashlib
+from dotenv import load_dotenv
+
 from django.shortcuts import render, redirect, get_object_or_404
-from .parsings.common_interface import get_news
 from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
 from django.http import JsonResponse, HttpResponse
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.contrib.auth.models import User
-from .models import UserProfile, EmailDigest, EmailCode
 from django.core.exceptions import ValidationError, ObjectDoesNotExist, PermissionDenied
-import random
-import threading
+from django.conf import settings
+from urllib.parse import urlencode
+
 from .parsings.common_interface import get_news
 from .parsings.news_digest import get_important_news
 from .parsings.server_admin_key import check, get_salt
 from .parsings.cache_manager import clear_cache
-import hashlib
-from urllib.parse import urlencode
-from django.conf import settings
-import os
-from dotenv import load_dotenv
+from .models import UserProfile, EmailDigest, EmailCode
+from .parsings.common_interface import get_news
+
 load_dotenv()
 
 def index(request):
